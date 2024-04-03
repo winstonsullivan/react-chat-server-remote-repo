@@ -135,4 +135,4 @@ The view sub-component should consist of an area where users can see all of the 
 
 - [ ] Add admin functionality check which allows an admin to delete any messages.
 
-Branch functionality test**
+Branch functionality test***
