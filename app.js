@@ -31,6 +31,9 @@ const Message = mongoose.model('Message', MessageSchema);
 // Middleware to parse JSON bodies
 app.use(express.json()); 
 
+// Protect Routes for JWT goes here
+
+
 // POST route to create new message
 app.post('/messages', async (req, res) => {
     try {
@@ -73,7 +76,9 @@ app.get('/messages/:id', async (req, res) => {
     }
 })
 
-// Update existing message
+// User Registration Endpoint
+
+// Update Existing Message
 app.put('/messages/:id', async (req, res) => {
     try {
         const messageId = req.params.id; // Get message ID from URL params
@@ -118,6 +123,8 @@ app.delete('/messages/:id', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error', message: error.message }); // Return error message to client
     }
 });
+
+// User Login 
 
 // Start server
 app.listen(PORT, () => {
