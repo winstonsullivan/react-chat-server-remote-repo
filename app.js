@@ -7,6 +7,10 @@ const mongoose = require('mongoose');
 const app = express(); 
 const PORT = process.env.PORT || 3000;
 
+//JWT
+const jwtSecret = 'winston123'; 
+const jwtExpiration = '1d'; // expires after 24hrs
+
 // connect to MongoDB (https://tinyurl.com/23lmtxm7)
 mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
