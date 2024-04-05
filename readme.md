@@ -144,3 +144,4 @@ allowed access from anywhere
 4/5 
 added connection string to .env
 setup connection to mongoDB in app.js
+connected mongoDB compass successfully 
