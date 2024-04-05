@@ -93,6 +93,27 @@ app.put('/messages/:id', async (req, res) => {
         res.status(500).json({ error: 'Message not found' }); 
     }
 });
+// Delete message
+app.delete('/messages/:id', async (req, res) => {
+    try {
+        const messageId = req.params.id; // get message ID from URL params
+    
+        // find message by ID and delete
+        const deletedMessage = await Message.findByIdAndDelete(messageId);
+    
+        // if found and deleted successfully
+        if (deletedMessage) {
+            res.json({ message: 'Message deleted successfully' });
+        } else {
+            // if the message isn't found
+            res.status(404).json({ error: 'Message not found' });
+        }
+    } catch (error) {
+        // if there's an error during deletion
+        console.error('Error deleting message:', error);
+        res.status(500).json({ error: 'Internal Server Error', message: error.message }); // Return error message to client
+    }
+});
 
 // Start server
 app.listen(PORT, () => {
