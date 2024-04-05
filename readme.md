@@ -138,7 +138,7 @@ The view sub-component should consist of an area where users can see all of the 
 4/4
 mongoDB cluster name: ChatAppCluster
 username: username
-password: password
+password: jZhp6FrZfRYPHdMK
 allowed access from anywhere
 
 4/5 
