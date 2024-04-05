@@ -69,6 +69,31 @@ app.get('/messages/:id', async (req, res) => {
     }
 })
 
+// Update existing message
+app.put('/messages/:id', async (req, res) => {
+    try {
+        const messageId = req.params.id; // Get message ID from URL params
+        const { text, user } = req.body; // Get updated message from request body
+    
+        // finding message by ID, updating contents
+        const updatedMessage = await Message.findByIdAndUpdate(
+            messageId, 
+            { text, user },
+            { new: true } // returns updated document
+        ); 
+    
+        // checking if msg was found / updated successfully 
+        if (updatedMessage) {
+            res.json(updatedMessage); // returns updated message as JSON response
+        } else {
+            res.status(404).json({ error: 'Message not found' }); // Message not found
+        }
+    } catch (error) {
+        console.error('Error updating message:', error); 
+        res.status(500).json({ error: 'Message not found' }); 
+    }
+});
+
 // Start server
 app.listen(PORT, () => {
     console.log(`Server is running on Port ${PORT}.`); // confirmation message
