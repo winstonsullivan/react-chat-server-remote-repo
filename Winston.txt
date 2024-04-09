@@ -1,0 +1,16 @@
+Winston Log
+4/4
+mongoDB cluster name: ChatAppCluster
+username: username
+password: jZhp6FrZfRYPHdMK
+allowed access from anywhere
+
+4/5 
+added connection string to .env
+setup connection to mongoDB in app.js
+connected mongoDB compass successfully 
+got all crud operations implemented and tested
+set up jwt configuration including secret key and expiration time
+
+4/9 
+added user registration. tested. posted to DB. 

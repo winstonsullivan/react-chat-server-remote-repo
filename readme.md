@@ -136,16 +136,3 @@ The view sub-component should consist of an area where users can see all of the 
 - [ ] Add admin functionality check which allows an admin to delete any messages.
 
 
-Winston Log
-4/4
-mongoDB cluster name: ChatAppCluster
-username: username
-password: jZhp6FrZfRYPHdMK
-allowed access from anywhere
-
-4/5 
-added connection string to .env
-setup connection to mongoDB in app.js
-connected mongoDB compass successfully 
-got all crud operations implemented and tested
-set up jwt configuration including secret key and expiration time

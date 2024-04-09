@@ -3,6 +3,7 @@ require('dotenv').config(); // loading variables from .env
 console.log('MONGO_URI:', process.env.MONGO_URI);
 const express = require('express'); 
 const mongoose = require('mongoose'); 
+const User = require('./userModel'); // importing User model file 
 
 const app = express(); 
 const PORT = process.env.PORT || 3000;
@@ -46,6 +47,7 @@ app.post('/messages', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' }); 
     }
 });
+
 // Get All Messages 
 app.get('/messages', async (req, res) => {
     try {
@@ -77,6 +79,29 @@ app.get('/messages/:id', async (req, res) => {
 })
 
 // User Registration Endpoint
+app.post('/register', async (req, res) => {
+    try {
+        const {username, email, password } = req.body; 
+        
+        // checking if user w/ email provided exists already
+        const existingUser = await User.findOne ({ email }); 
+        if (existingUser) {
+            return res.status(400).json({ error: 'User already exists' })
+        }
+        
+        // Create new user 
+        const newUser = new User ({ username, email, password }); 
+        
+        // save new user to DB
+        await newUser.save();
+                
+        // Return success response message 
+        res.status(201).json({ message: 'User has been registered successfully' })
+    } catch (error) {
+        console.error('Error registering new user:', error); 
+        res.status(500).json({ error: 'Internal Server Error' }); 
+    }
+}); 
 
 // Update Existing Message
 app.put('/messages/:id', async (req, res) => {
