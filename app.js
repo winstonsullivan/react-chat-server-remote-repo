@@ -4,6 +4,8 @@ console.log('MONGO_URI:', process.env.MONGO_URI);
 const express = require('express'); 
 const mongoose = require('mongoose'); 
 const User = require('./userModel'); // importing User model file 
+const bcrypt = require('bcryptjs'); // importing bcrypt for password hashing
+const jwt = require('jsonwebtoken'); // importing jwt for token generation
 
 const app = express(); 
 const PORT = process.env.PORT || 3000;
@@ -34,7 +36,6 @@ app.use(express.json());
 
 // Protect Routes for JWT goes here
 
-
 // POST route to create new message
 app.post('/messages', async (req, res) => {
     try {
@@ -57,7 +58,8 @@ app.get('/messages', async (req, res) => {
         console.error ('Error retreiving messages:', error); // error message to console
         res.status(500).json({ error: 'Internal Server Error'}) // error in retrieval process 
     }
-})
+});
+
 // Get single message
 app.get('/messages/:id', async (req, res) => {
     try {
@@ -76,7 +78,7 @@ app.get('/messages/:id', async (req, res) => {
         console.error('Error retrieving message by ID', error); 
         res.status(500).json({ error: 'Internal Server Error' }); 
     }
-})
+});
 
 // User Registration Endpoint
 app.post('/register', async (req, res) => {
@@ -127,6 +129,7 @@ app.put('/messages/:id', async (req, res) => {
         res.status(500).json({ error: 'Message not found' }); 
     }
 });
+
 // Delete message
 app.delete('/messages/:id', async (req, res) => {
     try {
@@ -150,6 +153,33 @@ app.delete('/messages/:id', async (req, res) => {
 });
 
 // User Login 
+app.post('/login', async (req, res) => {
+    // receive request 
+    try {
+        const { email, password } = req.body; // extract credentials
+        // verify login info 
+        const existingUser = await User.findOne({ email }); //searches for user in database w/ matching email, storing result in 'existing user' variable 
+        if (!existingUser) {
+            return res.status(404).json({ error: "User not found" });
+        }
+        // compare provided password w/ hashed password stored
+        const isMatch = await bcrypt.compare(password, existingUser.password); 
+        if (!isMatch) {
+            return res.status(400).json({ error: "Invalid credentials" });
+        }
+        // provided credentials are valid, issue jwt 
+        const token = jwt.sign( 
+            { userId: existingUser._id, email: existingUser.email }, 
+            jwtSecret, 
+            { expiresIn: jwtExpiration }
+        ); 
+        // send token to client
+        res.json({ message: "Logged in successfully", token }); 
+    } catch (error) {
+        console.error('Login error:', error); 
+        res.status(500).json({ error: 'Internal server error' });     
+    }
+}); 
 
 // Start server
 app.listen(PORT, () => {
