@@ -14,27 +14,25 @@ const PORT = process.env.PORT || 3000;
 const jwtSecret = 'winston123'; 
 const jwtExpiration = '1d'; // expires after 24hrs
 
-// connect to MongoDB (https://tinyurl.com/23lmtxm7)
+// connect to MongoDB 
 mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
 .then(() => console.log('MongoDB connected successfully!')) // confirmation
-.catch(err => console.error('MongoDB connection error:', err)); // Logs specific error message
+.catch(err => console.error('MongoDB connection error:', err)); // Log specific error message
 
 // Mongoose Schema 
 const MessageSchema = new mongoose.Schema({
     text: String,
     user: String, 
     timestamp: { type: Date, default: Date.now }
-}); // Mongoose model named 'Message', corresponding to the 'Message Schema'
+});
 
 const Message = mongoose.model('Message', MessageSchema); 
 
 // Middleware to parse JSON bodies
 app.use(express.json()); 
-
-// Protect Routes for JWT 
 
 // POST route to create new message
 app.post('/messages', async (req, res) => {
