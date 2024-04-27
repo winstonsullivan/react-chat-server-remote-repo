@@ -10,7 +10,7 @@ const jwt = require('jsonwebtoken'); // importing jwt for token generation
 const app = express(); 
 const PORT = process.env.PORT || 3000;
 
-//JWT
+//Json web token
 const jwtSecret = 'winston123'; 
 const jwtExpiration = '1d'; // expires after 24hrs
 
