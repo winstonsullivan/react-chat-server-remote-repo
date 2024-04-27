@@ -34,7 +34,7 @@ const Message = mongoose.model('Message', MessageSchema);
 // Middleware to parse JSON bodies
 app.use(express.json()); 
 
-// Protect Routes for JWT goes here
+// Protect Routes for JWT 
 
 // POST route to create new message
 app.post('/messages', async (req, res) => {
